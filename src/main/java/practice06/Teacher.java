@@ -1,6 +1,7 @@
 package practice06;
 
 public class Teacher extends Person{
+
     private Integer klassNo;
     private Klass klass;
 
@@ -23,7 +24,7 @@ public class Teacher extends Person{
     }
 
     public String introduceWith(Student student) {
-        String introduction = new String();
+        String introduction = "";
         introduction += super.introduce() + " I am a Teacher. ";
         if (klass.getNumber() == (student.getKlass().getNumber())) {
             introduction += "I teach " + student.getName() + ".";
@@ -35,7 +36,7 @@ public class Teacher extends Person{
             return  introduction;
 
     }
-
+//TODO
     public String introduce() {
         if(getKlass()!=null){
             return super.introduce() + String.format(" I am a Teacher. I teach %s.", klass.getDisplayName());

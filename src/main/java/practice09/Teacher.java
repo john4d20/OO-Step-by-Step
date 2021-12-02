@@ -19,11 +19,11 @@ public class Teacher extends Person{
     public List<Klass> getKlass() {
         return klasses;
     }
-
+//TODO
     @Override
     public String introduce() {
-        String strClass = "Class ";
-        if (klasses == null || klasses.size() == 0) {
+        String strClass = "";
+        if (klasses == null) {
             strClass = "No Class";
         }
         else {
@@ -32,7 +32,7 @@ public class Teacher extends Person{
         }
         return super.introduce() + " I am a Teacher. I teach " + strClass + ".";
     }
-
+//TOCHECK
     public String introduceWith(Student student) {
         StringBuilder intro = new StringBuilder(super.introduce());
         intro.append(" I am a Teacher. ");
@@ -53,3 +53,4 @@ public class Teacher extends Person{
         return klasses;
     }
 }
+

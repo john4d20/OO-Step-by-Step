@@ -7,7 +7,7 @@ public class Student extends Person{
     public Student(String name, int age) {
         super(name, age);
     }
-
+//TODO delete
     public Student(String name, int age, int klass) {
         super(name, age);
         this.klassNo = klass;

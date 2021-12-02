@@ -1,67 +1,57 @@
 package practice10;
+import java.util.LinkedList;
+public class Teacher extends Person{
 
-import practice09.Person;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-public class Teacher extends Person {
-    private List<Klass> klasses;
-
-    public Teacher(int id, String name, int age) {
+    private LinkedList<Klass> classes;
+    public Teacher(int id, String name, int age){
         super(id, name, age);
+        this.classes = new LinkedList<>();
     }
 
-    public Teacher(int id, String name, int age, List<Klass> klasses) {
-        super(id, name, age);
-        this.klasses = klasses;
-        klasses.forEach(k -> k.setTeacher(this));
-    }
 
-    public List<Klass> getKlass() {
-        return klasses;
+    public Teacher(int id, String name, int age, LinkedList<Klass> classes){
+        super(id, name, age);
+        this.classes = classes;
+        for(Klass klass : classes){
+            klass.setTeacher(this);
+        }
     }
 
     @Override
     public String introduce() {
-        String strClass;
-        if (klasses == null || klasses.size() == 0) {
-            strClass = "No Class";
-        }
-        else {
-            strClass = "Class ";
-            strClass += klasses.stream().map(Klass::getNumber).map(String::valueOf).collect(Collectors.joining(", "));
-        }
-        return super.introduce() + " I am a Teacher. I teach " + strClass + ".";
-    }
-
-    public String introduceWith(Student student) {
-        StringBuilder intro = new StringBuilder(super.introduce());
-        intro.append(" I am a Teacher. ");
-        if (isTeaching(student)) {
-            intro.append("I teach ").append(student.getName()).append(".");
+        String introduce = " I am a Teacher. I teach ";
+        String classesList = "";
+        if(classes.size() > 0) {
+            classesList = "Class " + classes.get(0).getNumber();
+            for (int i = 1; i < classes.size(); i++) {
+                classesList += ", " + classes.get(i).getNumber();
+            }
         } else {
-            intro.append("I don't teach ").append(student.getName()).append(".");
+            classesList = "No Class";
         }
-
-        return intro.toString();
+        return super.introduce() + introduce + classesList + ".";
     }
 
-    public boolean isTeaching(Student student) {
-        return klasses.stream().anyMatch(i -> i.getNumber() == student.getKlass().getNumber());
+    public String introduceWith(Student student){
+        String introduce = super.introduce() + " I am a Teacher. ";
+        if(isTeaching(student)){
+            return introduce + String.format("I teach %s.", student.getName());
+        } else {
+            return introduce + String.format("I don't teach %s.", student.getName());
+        }
     }
 
-    public List<Klass> getClasses() {
-        return klasses;
+    public Boolean isTeaching(Student student){
+        boolean isTeaching = false;
+        for (Klass item : classes){
+            if(item.isIn(student))
+                isTeaching = true;
+        }
+        return isTeaching;
     }
 
-    public void notifyNewMember(Student student, Klass klass) {
-        System.out.printf("I am %s. I know %s has joined %s.\r\n",
-                this.getName(), student.getName(), klass.getDisplayName());
-    }
-
-    public void notifyNewLeader(Student student, Klass klass) {
-        System.out.printf("I am %s. I know %s become Leader of %s.\r\n",
-                this.getName(), student.getName(), klass.getDisplayName());
+    public LinkedList<Klass> getClasses() {
+        return classes;
     }
 }

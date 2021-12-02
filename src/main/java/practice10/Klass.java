@@ -1,51 +1,55 @@
 package practice10;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Klass {
-    private int number;
-    private List<Student> members = new ArrayList<>();
+    private final int number;
     private Student leader;
+    private final List<Student> students;
     private Teacher teacher;
 
-    public Klass(int number) {
+    public Klass(int number){
         this.number = number;
-    }
-
-    public Teacher getTeacher() { return teacher; }
-
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
+        students = new ArrayList<Student>();
     }
 
     public int getNumber() {
         return number;
     }
 
-    public String getDisplayName() {
-        return "Class " + number;
-    }
-
-    public void assignLeader(Student student) {
-        if (members.contains(student)) {
-            leader = student;
-            if (teacher != null) {
-                teacher.notifyNewLeader(student, this);
-            }
-        }
-        else {
-            System.out.print("It is not one of us.\n");
-        }
-    }
-
     public Student getLeader() {
         return leader;
     }
 
-    public void appendMember(Student student) {
-        members.add(student);
-        if (teacher != null) {
-            teacher.notifyNewMember(student, this);
+    public String getDisplayName(){
+        return "Class " + number;
+    }
+
+    public void assignLeader(Student student){
+        if(students.contains(student)){
+            this.leader = student;
+            if (teacher != null){
+                System.out.printf("I am %s. I know %s become Leader of Class %d.\n", teacher.getName(), student.getName(), number);
+            }
+        } else {
+            System.out.print("It is not one of us.\n");
         }
     }
+
+    public void appendMember(Student student){
+        students.add(student);
+        if (teacher != null){
+            System.out.printf("I am %s. I know %s has joined Class %d.\n", teacher.getName(), student.getName(), number);
+        }
+    }
+
+    public void setTeacher(Teacher teacher) {
+        this.teacher = teacher;
+    }
+
+    public boolean isIn(Student student) {
+        return number == student.getKlass().getNumber();
+    }
+
 }

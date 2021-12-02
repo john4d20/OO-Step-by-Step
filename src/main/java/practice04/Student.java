@@ -2,7 +2,7 @@ package practice04;
 
 public class Student extends Person{
     private int klass;
-
+//TODO delete
     public Student(String name, int age) {
 
         super(name, age);
